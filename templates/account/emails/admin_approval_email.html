@@ -1,0 +1,14 @@
+
+{% autoescape off %}<!--you are safe against the crosssite scripting-->
+
+ Hi {{user.first_name}},
+
+ {% if is_approved %}
+ Congratulations! Your restaurant has been approved after thorough check.
+
+ {% else %}
+ We are extremely sorry, but you are not eligible to work with us.For more details please go through our TnC page.
+
+ {% endif %}
+
+{% endautoescape %}
