@@ -1,0 +1,8 @@
+<!--you are safe against the crosssite scripting-->
+{% autoescape off %}
+ Hi {{user.first_name}},
+
+ Please click on the below link to activate you account and have a wonderful experience with Twiggy.
+ http://{{domain}}{% url 'activate' uidb64=uid token=token %}
+
+{% endautoescape %}
