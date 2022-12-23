@@ -93,7 +93,7 @@ def registerVendor(request):
 
             mail_subject = 'Please Activate your account'
             email_template = 'account/emails/account_verification_email.html'
-            send_verification_email(request, user)
+            send_verification_email(request, user, mail_subject, email_template)
 
             messages.success(request, "Your account has been registered succesfully")
             return redirect('registerVendor')           

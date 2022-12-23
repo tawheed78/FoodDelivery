@@ -25,19 +25,27 @@
                             {% comment %} <a href="#" class="btn btn-success float-right m-1"><i class="fa fa-plus" aria-hidden="true"></i>Add Food</a>
                             <a href="#" class="btn btn-info float-right m-1"><i class="fa fa-plus" aria-hidden="true"></i>Add Category</a> {% endcomment %}
                             
-                            {% if products %}
+                            {% if fooditems %}
 
                             <table class="table table-hover table-borderless">
                                 <tbody>
-                                {% for prod in products %}
+                                {% for food in fooditems %}
                                   <tr>
                                     <td class="text-left">{{forloop.counter}}</td>
-                                    <td class="text-left"><img src="{{prod.image.url}}" alt="Food Image" width="40"></td>
+                                    <td class="text-left"><img src="{{food.image.url}}" alt="Food Image" width="40"></td>
                                     <td class="text-left">
-                                        <a href=""><p class="mb-0 font-weight-bold">{{prod}}</p>
-                                        <small class="text-muted">{{prod.description}}</small></a>
-                                    </th> <!--because the string representation of this particular category model is category name-->
-                                    <td><i class="fa fa-pencil" aria-hidden="true"></i> &nbsp; &nbsp;<i class="fa fa-trash" aria-hidden="true"></i></td>
+                                        <a href=""><p class="mb-0 font-weight-bold">{{food}}</p>
+                                        <small class="text-muted">{{food.description}}</small></a>
+                                    </td>  <!--because the string representation of this particular category model is category name-->
+
+                                    <td>
+                                      {% if food.is_available %}
+                                        <span class="badge badge-success">Available</span>
+                                      {% else %}
+                                        <span class="badge badge-danger">Unavailable</span>
+                                      {% endif %}
+                                    </td>
+                                    <td><a href="{% url 'edit_food' food.id %}" style="color:unset"><i class="fa fa-pencil" aria-hidden="true"></i></a> &nbsp; <a href="{% url 'delete_food' food.id %}"  onclick="return confirm('Are you sure?')"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
                                     
                                   </tr>
                                 {%endfor%}

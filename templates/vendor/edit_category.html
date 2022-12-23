@@ -19,6 +19,8 @@
                         <div class="user-holder">
                             <h5 class="text-uppercase">Create your Menu</h5>
                             <hr>
+                            <button class="btn btn-secondary" onclick="history.back()"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp; Back</button>
+                            <br><br>
                             <h6>Edit Category Name</h6>
                             <form action="{% url 'edit_category' category.id %}" method="POST">
                                 {% csrf_token %}
@@ -46,7 +48,8 @@
                                         {% endfor %}
                                     {% endif %}
                                 {% endfor %}
-                                <button type="submit" class="btn btn-info">Update</button>
+                                <button type="submit" class="btn btn-info"><i class="fa fa-check" aria-hidden="true"></i>Update</button>
+                                <a href="{% url 'delete_category' category.id %}"  onclick="return confirm('Are you sure?')"><i class="fa fa-trash" aria-hidden="true"></i></a>
                             </form>
                             <!--render form-->
                         </div>
