@@ -3,3 +3,12 @@
     font-size: 12px;
     cursor: pointer;
 }
+
+.button {
+    transition-duration: 0.4s;
+  }
+  
+  .button:hover {
+    background-color: #f00b0b; 
+    color: white;
+  }
