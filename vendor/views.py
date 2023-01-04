@@ -86,8 +86,10 @@ def add_category(request):
             category_name= form.cleaned_data['category_name']   #from the cleaned data we can accesss the cat name
             category = form.save(commit=False) #form is ready to save but not yet saved
             category.vendor = get_vendor(request)
-            category.slug = slugify(category_name)
-            form.save()                      #if the data is valid then we will save the form
+            
+            category.save()                      #if the data is valid then we will save the form
+            category.slug = slugify(category_name)+'-'+str(category.id)
+            category.save()
             messages.success(request, "Category added succesfully")
             return redirect('menu_builder')
         else:

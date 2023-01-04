@@ -12,3 +12,7 @@
     background-color: #f00b0b; 
     color: white;
   }
+
+.main-search.fancy .field-holder input[type="text"]{
+  color: black !important;
+}
