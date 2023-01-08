@@ -1,13 +1,16 @@
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from .models import Cart
 from menu.models import Category, FoodItem
 
-from vendor.models import Vendor
+from vendor.models import Vendor, OpeningHour
 from django.db.models import Prefetch
 from marketplace.context_processors import get_cart_counter, get_cart_amounts
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+
+from datetime import date, datetime
+
 def marketplace(request):
     vendors = Vendor.objects.filter(is_approved=True, user__is_active=True)
     vendor_count = vendors.count()
@@ -26,6 +29,12 @@ def vendor_detail(request, vendor_slug):
             queryset=FoodItem.objects.filter(is_available=True)
         )
     )
+    opening_hours = OpeningHour.objects.filter(vendor=vendor).order_by('day','-from_hour')
+
+    today_date = date.today()
+    today = today_date.isoweekday()
+
+    current_opening_hours = OpeningHour.objects.filter(vendor=vendor, day=today)
 
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user)
@@ -35,6 +44,9 @@ def vendor_detail(request, vendor_slug):
         'vendor':vendor,
         'categories':categories,
         'cart_items':cart_items,
+        'opening_hours':opening_hours,
+        'current_opening_hours':current_opening_hours,
+        
     }
     return render(request, 'marketplace/vendor_detail.html',context)
 
@@ -117,21 +129,24 @@ def delete_cart(request,cart_id):
 
 
 def search(request):
-    # address = request.GET['address']
-    # latitude = request.GET['lat']
-    # longitude = request.GET['lng']
-    # radius = request.GET['radius']
-    keyword = request.GET['keyword']
+    if not 'address' in request.GET:
+        return redirect('marketplace')
+    else:
+        # address = request.GET['address']
+        # latitude = request.GET['lat']
+        # longitude = request.GET['lng']
+        # radius = request.GET['radius']
+        keyword = request.GET['keyword']
 
-    #get v_id for fooditem user needs
-    fetch_vendor_by_fooditems = FoodItem.objects.filter(food_title__icontains=keyword, is_available=True).values_list('vendor',flat=True)
+        #get v_id for fooditem user needs
+        fetch_vendor_by_fooditems = FoodItem.objects.filter(food_title__icontains=keyword, is_available=True).values_list('vendor',flat=True)
 
-    vendors = Vendor.objects.filter(Q(id__in=fetch_vendor_by_fooditems) | Q(vendor_name__icontains=keyword, is_approved=True, user__is_active = True))
+        vendors = Vendor.objects.filter(Q(id__in=fetch_vendor_by_fooditems) | Q(vendor_name__icontains=keyword, is_approved=True, user__is_active = True))
 
-    # vendors = Vendor.objects.filter(vendor_name__icontains=keyword, is_approved=True, user__is_active = True)shifted up
-    vendor_count = vendors.count()
-    context={
-        'vendors':vendors,
-        'vendor_count':vendor_count,
-    }
-    return render(request, 'marketplace/listings.html',context)
+        # vendors = Vendor.objects.filter(vendor_name__icontains=keyword, is_approved=True, user__is_active = True)shifted up
+        vendor_count = vendors.count()
+        context={
+            'vendors':vendors,
+            'vendor_count':vendor_count,
+        }
+        return render(request, 'marketplace/listings.html',context)

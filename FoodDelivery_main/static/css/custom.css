@@ -16,3 +16,10 @@
 .main-search.fancy .field-holder input[type="text"]{
   color: black !important;
 }
+
+#opening_hours select{
+  padding: 5px 10px !important;
+}
+.btn-success.add_hour{
+  padding:7px 15px 7px 15px;
+}
