@@ -1,3 +1,4 @@
+from account.models import UserProfile
 from vendor.models import Vendor
 
 def get_vendor(request):
@@ -8,3 +9,14 @@ def get_vendor(request):
     return dict(
             vendor=vendor
         )
+
+def get_user_profile(request):
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+    except:
+        user_profile = None
+    return dict(
+        user_profile=user_profile
+    )
+
+#in order to make the contextprocessor work register in settings.py
