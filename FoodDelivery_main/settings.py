@@ -76,6 +76,7 @@ TEMPLATES = [
                 'marketplace.context_processors.get_cart_counter',
                 'marketplace.context_processors.get_cart_amounts',
                 'account.context_processors.get_user_profile',
+                'account.context_processors.get_paypal_client_id',
                 
             ],
         },
@@ -174,3 +175,7 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD') 
 EMAIL_USE_TLS = True                            #it means that email will be sent securely
 DEFAULT_FROM_EMAIL = 'Twiggy Food Delivery <tawiggyy@gmail.com>'
+
+PAYPAL_CLIENT_ID = config('PAYPAL_CLIENT_ID')
+
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'

@@ -1,3 +1,4 @@
+from django.conf import settings
 from account.models import UserProfile
 from vendor.models import Vendor
 
@@ -20,3 +21,6 @@ def get_user_profile(request):
     )
 
 #in order to make the contextprocessor work register in settings.py
+
+def get_paypal_client_id(request):
+    return {'PAYPAL_CLIENT_ID': settings.PAYPAL_CLIENT_ID}

@@ -1,0 +1,9 @@
+<!--you are safe against the crosssite scripting-->
+{% autoescape off %}
+
+You have received anew order
+
+Your order number is : {{order.order_number}}
+transaction ID : {{order.payment.transaction_id}}
+
+{% endautoescape %}
