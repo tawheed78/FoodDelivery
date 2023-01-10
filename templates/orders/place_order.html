@@ -95,9 +95,15 @@
                                                     <span id="total">{{grand_total}}</span>
                                                 </span>
                                             </li>
+
+                                            {% if order.payment_method == 'PayPal' %}
                                             <!--Paypal button-->
                                             <div id="paypal-button-container"></div>
                                             <!--Paypal button-->
+                                            {% comment %} {%elif order.payment_method == 'RazorPay' %} {% endcomment %}
+                                            
+                                            {% endif %}
+
                                         </ul>
                                     </div>
                                     

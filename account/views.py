@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from account.utils import detectUser, send_verification_email
+from orders.models import Order
 from .forms import UserForm
 from vendor.forms import VendorForm
 from .models import User, UserProfile
@@ -152,10 +153,12 @@ def login(request):
 
     return render(request, 'account/login.html')
 
+
 def logout(request):
     auth.logout(request)
     messages.info(request, "You have logged out")
     return redirect('login')
+
 
 @login_required(login_url = 'login')                   #decorator so that only when u are logged in you can go to myAccount view
 def myAccount(request):
@@ -163,16 +166,23 @@ def myAccount(request):
     redirectUrl = detectUser(user)
     return redirect(redirectUrl)
 
+
 @login_required(login_url = 'login')
 @user_passes_test(check_role_cust)
 def custDashboard(request):
-    return render(request, 'account/custDashboard.html')
+    orders = Order.objects.filter(user = request.user, is_ordered=True)
+    recent_orders = orders[:5]
+    context = {
+        'orders':orders,
+        'orders_count':orders.count(),
+        'recent_orders':recent_orders
+    }
+    return render(request, 'account/custDashboard.html',context)
 
 @login_required(login_url = 'login')
 @user_passes_test(check_role_vendor)
 def vendorDashboard(request):
     return render(request, 'account/vendorDashboard.html')
-
 
 
 def forgot_password(request):
