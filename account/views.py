@@ -16,6 +16,7 @@ from django.contrib.auth.tokens import default_token_generator
 from vendor.models import Vendor
 from django.template.defaultfilters import slugify
 
+import datetime
 
 #Restricting vendor from accessing cust page
 def check_role_vendor(user):
@@ -175,14 +176,35 @@ def custDashboard(request):
     context = {
         'orders':orders,
         'orders_count':orders.count(),
-        'recent_orders':recent_orders
+        'recent_orders':recent_orders,
     }
     return render(request, 'account/custDashboard.html',context)
 
 @login_required(login_url = 'login')
 @user_passes_test(check_role_vendor)
 def vendorDashboard(request):
-    return render(request, 'account/vendorDashboard.html')
+    vendor = Vendor.objects.get(user=request.user)
+    orders = Order.objects.filter(vendors__in=[vendor.id], is_ordered=True).order_by('-created_at')
+    recent_orders = orders[:10]
+
+    total_revenue = 0
+    for i in orders:
+        total_revenue += i.get_total_by_vendor()['grand_total']
+    
+    current_month = datetime.datetime.now().month
+    current_month_orders = orders.filter(vendors__in=[vendor.id], created_at__month=current_month)
+    current_month_revenue = 0
+    for i in  current_month_orders:
+        current_month_revenue += i.get_total_by_vendor()['grand_total']
+
+    context = {
+        'orders':orders,
+        'orders_count':orders.count(),
+        'recent_orders':recent_orders,
+        'total_revenue':total_revenue,
+        'current_month_revenue':current_month_revenue,
+    }
+    return render(request, 'account/vendorDashboard.html',context)
 
 
 def forgot_password(request):
@@ -237,4 +259,6 @@ def reset_password(request):
             return redirect('reset_password')
 
     return render(request, 'account/reset_password.html')
+
+
 
