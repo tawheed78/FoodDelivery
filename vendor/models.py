@@ -15,14 +15,13 @@ class Vendor(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
 
     def is_open(self):
+        # Check current day's opening hours.
         today_date = date.today()
         today = today_date.isoweekday()
-
+        
         current_opening_hours = OpeningHour.objects.filter(vendor=self, day=today)
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S")
-
-        print(current_time)
 
         is_open = None
         for i in current_opening_hours:
