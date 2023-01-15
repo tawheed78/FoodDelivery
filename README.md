@@ -1,6 +1,6 @@
 # FoodDelivery 
 Hello everyone! 
-[p1](https://user-images.githubusercontent.com/119650487/212529548-fb8d3fb5-a629-41f7-bc97-020f397107c9.PNG)
+https://user-images.githubusercontent.com/119650487/212529548-fb8d3fb5-a629-41f7-bc97-020f397107c9.PNG
 
 This project basically focuses on the backend working of the popular food delivery apps used by us. It includes various functionalities like that of the delivery apps which can be listed as follows:
 
