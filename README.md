@@ -1,6 +1,6 @@
 # FoodDelivery 
 Hello everyone! 
-https://user-images.githubusercontent.com/119650487/212529548-fb8d3fb5-a629-41f7-bc97-020f397107c9.PNG
+
 
 This project basically focuses on the backend working of the popular food delivery apps used by us. It includes various functionalities like that of the delivery apps which can be listed as follows:
 
@@ -13,7 +13,7 @@ This project basically focuses on the backend working of the popular food delive
 *Post selection of payment method another window appears with the food items and address and payment method.
 *Paypal sandbox version is implemented and payment can be done to the respective vendor.
 *Post order placement an Order Completed page appears with the food items, address, payment done stamp and dynamically created "order number" and "transaction Id".
-*Almost everything is dynamically created from backend to learn all the concepts.
+*Almost everything is dynamically created from backend.
 
 
 
