@@ -14,7 +14,7 @@ This project basically focuses on the backend working of the popular food delive
 *Post selection of payment method another window appears with the food items and address and payment method.
 *Paypal sandbox version is implemented and payment can be done to the respective vendor.
 *Post order placement an Order Completed page appears with the food items, address, payment done stamp and dynamically created "order number" and "transaction Id".
-*Almost everything is dynamically created from backend.
+
 
 
 
